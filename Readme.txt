@@ -1,8 +1,10 @@
-_____                           _
+ _____                           _
 |  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___
 |     |   | . |   | | |     | .'|  _| . |  _|
 |__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|
-                 |___|                      
+                  |___|
+Made with <3 From France
+
 This little bash script is here to regroup all the tools
 you need to stay anonymous on the internet
 

@@ -1,30 +1,56 @@
 #!/bin/bash
 # Anonymise yourself
-echo " _____                           _            " 
+sudo echo ""
+echo " _____                           _            "
 echo "|  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___  "
 echo "|     |   | . |   | | |     | .'|  _| . |  _| "
 echo "|__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|   "
 echo "                  |___|                       "
+echo "Made with <3 From France"
 echo "1: Change your mac adress"
 echo "2: Reroute all your conexions throug tor"
 echo "3: Do both"
 echo "4: Install dependencies (you need to do it once)"
+
+#Declaring variables
 read -p "Your Choice: " C
+Interface=$(ip route list | grep default | awk '{print $5} ')
+
+#Menu in the console
 if [ $C = "1" ]
       then
-          sudo macchanger -r $(ip route list | grep default | awk '{print $5} ')
-          sudo service network-manager restart
-          clear
+          echo "Disabling network services"
+          (sudo service NetworkManager stop
+          sudo ifconfig $( echo $Interface) down
+          )> /dev/null 2>&1
+          echo "Changing mac adress"
+          (sudo macchanger -r $(echo $Interface)
+          )> /dev/null 2>&1
+          echo "Rebooting network services"
+          (sudo ifconfig $(echo $Interface) up
+          sudo service NetworkManager start
           echo "Your mac adress has been changed:"
-          sudo macchanger -r $(ip route list | grep default | awk '{print $5} ')
+          )> /dev/null 2>&1
+          sudo macchanger -r $( echo $Interface)
       elif [ $C = "2" ]
         then
           sudo torghost start
-
+          echo "Disabling network services"
+          (sudo service NetworkManager stop
+          sudo ifconfig $( echo $Interface) down
+          )> /dev/null 2>&1
+          echo "Changing mac adress"
+          (sudo macchanger -r $(echo $Interface)
+          )> /dev/null 2>&1
+          echo "Rebooting network services"
+          (sudo ifconfig $(echo $Interface) up
+          sudo service NetworkManager start
+          echo "Your mac adress has been changed:"
+          )> /dev/null 2>&1
+          sudo macchanger -r $( echo $Interface)
       elif [ $C = "3" ]
         then
-            .//Tools/Macchanger.sh
-            torghost start
+            sudo torghost start
 
       elif [ $C = "4" ]
         then
