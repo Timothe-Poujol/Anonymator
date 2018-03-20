@@ -1,10 +1,10 @@
 #!/bin/bash
 # Anonymise yourself
-echo " _______                                    __                    "
-echo "|   _   |.-----.-----.-----.--.--.--------.|__|.-----.-----.----. "
-echo "|       ||     |  _  |     |  |  |        ||  ||__ --|  -__|   _| "
-echo "|___|___||__|__|_____|__|__|___  |__|__|__||__||_____|_____|__|   "
-echo "                           |_____|                                "
+echo " _____                           _            " 
+echo "|  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___  "
+echo "|     |   | . |   | | |     | .'|  _| . |  _| "
+echo "|__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|   "
+echo "                  |___|                       "
 echo "1: Change your mac adress"
 echo "2: Reroute all your conexions throug tor"
 echo "3: Do both"
@@ -30,9 +30,12 @@ if [ $C = "1" ]
         then
           sudo apt-get install tor
           sudo apt-get install macchanger
+          git clone https://github.com/susmithHCK/torghost.git
           cd torghost
           chmod +x install.sh
           sudo ./install.sh
+          cd ..
+          sudo rm -rf torghost
           echo "All dependencies installed!"
         else
           echo "Wrong entry"

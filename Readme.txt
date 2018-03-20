@@ -1,10 +1,9 @@
- _______                                    __
-|   _   |.-----.-----.-----.--.--.--------.|__|.-----.-----.----.
-|       ||     |  _  |     |  |  |        ||  ||__ --|  -__|   _|
-|___|___||__|__|_____|__|__|___  |__|__|__||__||_____|_____|__|
-                           |_____|
-
-This little bash script is here to here to regroup all the tools
+_____                           _
+|  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___
+|     |   | . |   | | |     | .'|  _| . |  _|
+|__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|
+                 |___|                      
+This little bash script is here to regroup all the tools
 you need to stay anonymous on the internet
 
 Currently, it use tor (torghost) and macchanger
