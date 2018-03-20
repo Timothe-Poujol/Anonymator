@@ -19,7 +19,7 @@ if [ $C = "1" ]
           sudo macchanger -r $(ip route list | grep default | awk '{print $5} ')
       elif [ $C = "2" ]
         then
-          torghost start
+          sudo torghost start
 
       elif [ $C = "3" ]
         then
