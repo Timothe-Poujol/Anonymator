@@ -35,19 +35,13 @@ if [ $C = "1" ]
       elif [ $C = "2" ]
         then
           echo "Disabling network services"
-          (sudo service NetworkManager stop
-          sudo ifconfig $( echo $Interface) down
+          (sudo ifconfig $( echo $Interface) down
           )> /dev/null 2>&1
-          echo "Changing mac adress"
-          (sudo macchanger -r $(echo $Interface)
+          echo "Starting torghost"
+          (sudo torghost start
           )> /dev/null 2>&1
           echo "Rebooting network services"
           (sudo ifconfig $(echo $Interface) up
-          sudo service NetworkManager start
-          echo "Your mac adress has been changed:"
-          )> /dev/null 2>&1
-          sudo macchanger -r $( echo $Interface)
-          (sudo torghost start
           )> /dev/null 2>&1
           echo "Your IP adress is now hidden"
       elif [ $C = "3" ]
@@ -56,14 +50,17 @@ if [ $C = "1" ]
 
       elif [ $C = "4" ]
         then
+          clear
           (sudo apt-get install tor
           )> /dev/null 2>&1
           echo "Installing macchanger"
           (sudo apt-get install macchanger
           )> /dev/null 2>&1
+          echo ""
           echo "Downloading Torghost"
           (git clone https://github.com/susmithHCK/torghost.git
           )> /dev/null 2>&1
+          echo ""
           echo "Installing Torghost"
           (cd torghost
           chmod +x install.sh
@@ -71,6 +68,7 @@ if [ $C = "1" ]
           cd ..
           sudo rm -rf torghost
           )> /dev/null 2>&1
+          echo ""
           echo "All dependencies installed!"
         else
           echo "Wrong entry"
