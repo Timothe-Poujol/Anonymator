@@ -3,14 +3,14 @@
 sudo echo ""
 RED='\033[0;31m'
 NC='\033[0m' # No Color
-BOLD = '\033[1m'
-clear
+GREEN='\033[92m'
+BLUE='\033[0;34m'
 echo -e "${RED} _____                           _            "
 echo          "|  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___  "
 echo          "|     |   | . |   | | |     | .'|  _| . |  _| "
 echo          "|__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|   "
-echo          "                  |___|                       "
-echo -e "${NC}Made with <3 From France"
+echo -e       "                  |___|                       ${NC}"
+echo -e "${GREEN}Made with <3 From France${NC}"
 echo "1: Change your mac adress"
 echo "2: Reroute all your conexions throug tor"
 echo "3: Do both"
@@ -23,24 +23,30 @@ clear
 #Menu in the console
 if [ $C = "1" ]
 then
+          echo ""
           echo "Disabling network services"
           (sudo service NetworkManager stop
           sudo ifconfig $( echo $Interface) down
           )> /dev/null 2>&1
+          echo ""
           echo "Changing mac adress"
           (sudo macchanger -r $(echo $Interface)
           )> /dev/null 2>&1
+          echo ""
           echo "Rebooting network services"
           (sudo ifconfig $(echo $Interface) up
           sudo service NetworkManager start
           )> /dev/null 2>&1
+          echo ""
           echo "Your mac adress has been changed:"
           sudo macchanger -r $( echo $Interface)
 elif [ $C = "2" ]
 then
           echo "Starting torghost"
+          echo ""
           echo "torghost output:"
           sudo torghost start
+          echo ""
           echo "Your IP adress is now hidden"
 elif [ $C = "3" ]
 then
@@ -79,7 +85,7 @@ then
           sudo rm -rf torghost
           )> /dev/null 2>&1
           echo ""
-          echo "All dependencies installed!"
+          echo -e "${GREEN}All dependencies installed!${NC}"
 else
           echo -e "${RED}Wrong entry${NC}"
 fi
@@ -87,21 +93,19 @@ sleep 4
 clear
 #testing if internet still work
 echo "Do  you want to test if your internet connexion still work?"
-echo "1: Yes (recommended)"
+echo -e "${BLUE}1: Yes (recommended)${NC}"
 echo "2: No"
 read -p "Your Choice: " N
 clear
 if [ $N = "1" ]
   then
-#IL FAUT AJOUTER UNE RECONEXION AU WIFI ICI
-(Network=$(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ok || echo error)
-)> /dev/null 2>&1
+Network=$(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ok || echo error)
               if [ $Network = "ok" ]
                 then
-                    echo "Internet is working! Nice!"
+                    echo -e "${GREEN}Internet is working! Nice!${NC}"
               elif [ $Network = "error" ]
                 then
-                    echo "Internet is not working... Sorry, i try to avoid this bugs in my script, but it's hard..."
+                    echo "${RED}Internet is not working...${NC} Sorry, i try to avoid this bugs in my script, but it's hard..."
                     echo ""
                     echo "I'm sorry, you need to reboot to get internet back..."
                     echo "Reboot now? (Y/N)"

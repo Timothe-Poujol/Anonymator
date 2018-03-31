@@ -14,5 +14,4 @@ How to use:
 sudo chmod +x Anonymator.bash
 sudo bash Anonymator.bash
 
-This scipt is under active development, they are a few bugs while using
-macchanger because of connexion lost but I will fix that soon
+The script is working fine now, tested on Ubuntu 17.10
