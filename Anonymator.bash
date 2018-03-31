@@ -1,13 +1,16 @@
 #!/bin/bash
 # Anonymise yourself
 sudo echo ""
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+BOLD = '\033[1m'
 clear
-echo " _____                           _            "
-echo "|  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___  "
-echo "|     |   | . |   | | |     | .'|  _| . |  _| "
-echo "|__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|   "
-echo "                  |___|                       "
-echo "Made with <3 From France"
+echo -e "${RED} _____                           _            "
+echo          "|  _  |___ ___ ___ _ _ _____ ___| |_ ___ ___  "
+echo          "|     |   | . |   | | |     | .'|  _| . |  _| "
+echo          "|__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|   "
+echo          "                  |___|                       "
+echo -e "${NC}Made with <3 From France"
 echo "1: Change your mac adress"
 echo "2: Reroute all your conexions throug tor"
 echo "3: Do both"
@@ -46,10 +49,22 @@ then
 elif [ $C = "4" ]
 then
           clear
-          (sudo apt-get install tor
+          echo "Downloading and installing tor"
+          (sudo apt-get install tor -y
           )> /dev/null 2>&1
-          echo "Installing macchanger"
-          (sudo apt-get install macchanger
+          echo ""
+          echo "Downloading and installing macchanger"
+          (sudo apt-get install macchanger -y
+          )> /dev/null 2>&1
+          echo ""
+          echo "Downloading and installing python pip"
+          echo "(28MB + dependencies) -> Can take some time"
+          (sudo apt-get install python-pip -y
+          )> /dev/null 2>&1
+          echo ""
+          echo "Downloading and installing stem"
+          echo "(+/- 10MB) -> Can take some time"
+          (sudo pip2 install steam
           )> /dev/null 2>&1
           echo ""
           echo "Downloading Torghost"
@@ -66,9 +81,9 @@ then
           echo ""
           echo "All dependencies installed!"
 else
-          echo "Wrong entry"
+          echo -e "${RED}Wrong entry${NC}"
 fi
-sleep 5.5
+sleep 4
 clear
 #testing if internet still work
 echo "Do  you want to test if your internet connexion still work?"
@@ -78,31 +93,35 @@ read -p "Your Choice: " N
 clear
 if [ $N = "1" ]
   then
-Network=$(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ok || echo error)
+#IL FAUT AJOUTER UNE RECONEXION AU WIFI ICI
+(Network=$(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ok || echo error)
+)> /dev/null 2>&1
               if [ $Network = "ok" ]
-                  then
+                then
                     echo "Internet is working! Nice!"
               elif [ $Network = "error" ]
                 then
-                    echo "Internet is not working :( Sorry, i try to avoid this bugs in my script, but it's hard...)"
+                    echo "Internet is not working... Sorry, i try to avoid this bugs in my script, but it's hard..."
                     echo ""
                     echo "I'm sorry, you need to reboot to get internet back..."
                     echo "Reboot now? (Y/N)"
                     read -p "Your Choice: " R
-                else
-                  echo "Ups... I have a little problem... Sorry!"
-                fi
+#does the user wants to reboot? Test with another if
                           if [ $R = "Y" ]
                           then
                             reboot
                           else
                             echo "Okay, don't forget to reboot later!"
                           fi
-elif [ $N = "2"]
+#end of the if, comming back to the test internet menu
+               else
+                          echo -e "${RED}Wrong entry${NC}"
+               fi
+elif [ $N = "2" ]
 then
   echo "Okay! If you have network issues don't forget to reboot!"
 else
-  echo "I can't understand you..."
+  echo -e "${RED}Wrong entry${NC}"
 fi
 echo ""
 echo ""
@@ -110,3 +129,4 @@ echo "Thanks for using this script! :) Goodbye!"
 echo ""
 echo ""
 echo ""
+echo -e "If you want to cut torghost, type: ${RED}sudo torghost stop${NC}"
