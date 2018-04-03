@@ -120,6 +120,27 @@ then
 
 elif [ $C = "3" ]
 then
+            echo ""
+            echo "Disabling network services"
+            (sudo service NetworkManager stop
+            sudo ifconfig $( echo $Interface) down
+            )> /dev/null 2>&1
+            echo ""
+            echo "Changing mac adress"
+            (sudo macchanger -r $(echo $Interface)
+            )> /dev/null 2>&1
+            echo ""
+            echo "Rebooting network services"
+            (sudo ifconfig $(echo $Interface) up
+            sudo service NetworkManager start
+            )> /dev/null 2>&1
+            echo ""
+            echo "Your mac adress has been changed:"
+            sudo macchanger -r $( echo $Interface)
+            echo ""
+            echo ""
+            echo -e "${BOLD}waiting to the network to reboot properly...${END}(10s)"
+            sleep 10s
             sudo torghost start
             internet_test
 
