@@ -5,11 +5,9 @@
                   |___|
 Made with <3 From France
 
-This little bash script is here to regroup all the tools
-you need to stay anonymous on the internet
-
-Currently, it use tor (torghost) and macchanger
-
+Be anonymous without knowing all the boring commands, this script actually
+simply the use of macchanger and Torghost. It also speed up the process,
+by automating it
 How to use:
 sudo chmod +x Anonymator.bash
 sudo bash Anonymator.bash

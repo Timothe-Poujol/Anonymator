@@ -83,7 +83,6 @@ if [ $C = "1" ]
 then
           echo ""
           echo "Disabling network services"
-          (sudo service NetworkManager stop
           sudo ifconfig $( echo $Interface) down
           )> /dev/null 2>&1
           echo ""
@@ -93,7 +92,6 @@ then
           echo ""
           echo "Rebooting network services"
           (sudo ifconfig $(echo $Interface) up
-          sudo service NetworkManager start
           )> /dev/null 2>&1
           echo ""
           echo "Your mac adress has been changed:"
