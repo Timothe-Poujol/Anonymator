@@ -3,7 +3,7 @@
 |     |   | . |   | | |     | .'|  _| . |  _|
 |__|__|_|_|___|_|_|_  |_|_|_|__,|_| |___|_|
                   |___|
-Made with <3 From France
+Made with <3 From France by Timothe P
 
 Be anonymous without knowing all the boring commands, this script actually
 simply the use of macchanger and Torghost. It also speed up the process,
