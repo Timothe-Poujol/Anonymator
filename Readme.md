@@ -6,7 +6,7 @@ simply the use of macchanger and Torghost. It also speed up the process,
 by automating it
 
 How to use:
-    ```bash
+    ```
     sudo chmod +x Anonymator.bash
     sudo bash Anonymator.bash
     ```
