@@ -14,8 +14,8 @@ sudo bash Anonymator.bash
 ## Features:
 
 ```
-Spoof your mac adress (something that personally identify your computer)
-Change your ip adress (something that you can use to locate a computer)
+Spoof your mac adress 
+Change your ip adress 
 ```
 
 The script is working fine now, tested on Ubuntu 17.10 and Kali Linux 2018.1
