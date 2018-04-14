@@ -5,13 +5,13 @@ Be anonymous without knowing all the boring commands, this script actually
 simply the use of macchanger and tor iptables. It also speed up the process,
 by automating it
 
-##How to use:
+## How to use:
 
 ```
 sudo chmod +x Anonymator.bash
 sudo bash Anonymator.bash
 ```
-##Features:
+## Features:
 
 ```
 Spoof your mac adress (something that personally identify your computer)
