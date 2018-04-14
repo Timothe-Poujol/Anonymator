@@ -12,7 +12,6 @@ BRED='\e[1;31m'
 BGREEN='\e[1;32m'
 BBLUE='\e[1;34m'
 BWHITE='\e[1;37m'
-#Others colors
 
 Interface=$(ip route list | grep default | awk '{print $5} ')
 Old_mac=$(cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address)
@@ -27,101 +26,48 @@ function pause()
    read -p "$*"
 }
 
-#A fonction to spoof the mac adress with macchanger
+#Wait for a working internet conexion
+function wait_internet()
+{
+  Q="0"
+  echo -e "Waiting to the network to reboot properly...${WHITE}(can take some time,"
+  echo -e "In some cases you will need to reconnect wifi manualy)${BWHITE}"
+while [ $Q = "0" ] ; do
+   Q=$(ping -c1 www.google.com 2> /dev/null | grep -c google);
+done
+echo -e "${GREEN}Connected !${BWHITE}"
+}
+
+#Spoof the mac adress with macchanger
 function spoof_mac ()
 {
-          echo -e "${BWHITE}Disabling network services"
+          echo -e "${WHITE}Disabling network services"
           sudo systemctl stop NetworkManager
           echo ""
-          echo -e "${BBLUE}Changing mac adress${BWHITE}"
+          echo -e "${BWHITE}Changing mac adress${WHITE}"
           (sudo macchanger -A $(echo $Interface)
           )> /dev/null 2>&1
           echo ""
           echo "Rebooting network services"
           sudo systemctl start NetworkManager
           echo ""
-          echo -e "Waiting to the network to reboot properly...${WHITE}(can take some time)"
-          sleep 11s
+          wait_internet
 }
 
 #Reroute all internet trafic throug tor
 function tor_iptables2 ()
 {
         echo ""
-        echo -e "${BWHITE}Changing iptables rules to ${BBLUE}reroute all trafic throug tor${WHITE}"
+        echo -e "${WHITE}Changing iptables rules to ${BWHITE}reroute all trafic throug tor${WHITE}"
         cd toriptables2
         (sudo python toriptables2.py -l
         )> /dev/null 2>&1
         cd ..
 }
 
-#Test the internet conexion and save it to a variable
-function internet_test ()
-{
-  Network=$(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` > /dev/null && echo ok || echo error)
-  if [ $Network = ok ]
-  then
-    Net_status=1
-  else
-    Net_status=2
-  fi
-}
-
-#Just a litle loop to another fonction to avoid infinite loops
-function internet_loop ()
-{
-  if [ $Net_status = "1" ]
-  then
-    echo ""
-  else
-    Internet_loss
-  fi
-}
 
 
-#Troubleshoot internet issues
-function Internet_loss ()
-{
-  echo -e "${BRED} Oh no! Internet is not working...${BWHITE} I will try to fix the bug and reverting changes...${WHITE}"
-                      pause
-                      echo ""
-                      echo ""
-                      cd toriptables2
-                      (sudo python toriptables2.py -f
-                      )> /dev/null 2>&1
-                      cd ..                      sudo ifconfig $(echo $Interface) down
-                      sudo service network-manager stop
-                      sudo macchanger -p $(echo $Interface)
-                      sudo service network-manager start
-                      sudo ifconfig $(echo $Interface) up
-                      sleep 15s
-                      internet_test
-
-
-  if [ $Net_status = "1" ]
-
-    then
-      echo -e "${GREEN}Internet is back, but you are not anonymous${WHITE}"
-
-    elif [ $Net_status = "2" ]
-    then
-      echo -e "${BRED}Oh no! I can't bring internet back... You need to reboot to fix this issue...${BWHITE}"
-      echo "Do you want to reboot? (y/n)"
-      read -p "Your Choice: " Reboot_choice
-        if [ $Reboot_choice = "y" ]
-          then
-            reboot
-          else
-          echo "Okay, don't forget to reboot later!"
-          echo "Keep in mind that you are not anonymous!${WHITE}"
-        fi
-    else
-      echo ""
-  fi
-}
-
-
-#A fonction to show your ip adress and mac adress
+#Show your ip adress and mac adress
 function informations ()
 {
   New_mac=$(cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address)
@@ -145,30 +91,29 @@ function informations ()
   read -p "$*"
 }
 
-#A fonction to revert changes
+#Revert changes
 function STOP ()
 {
 
   clear
   echo ""
-  echo -e "${BWHITE}Changing iptables rules to ${BBLUE}stop rerouting all trafic throug tor${WHITE}"
+  echo -e "${WHITE}Changing iptables rules to ${BWHITE}stop rerouting all trafic throug tor${WHITE}"
   cd toriptables2
   (sudo python toriptables2.py -f
   )> /dev/null 2>&1
   cd ..
   echo ""
-  echo -e "${BWHITE}Disabling network services"
+  echo -e "${WHITE}Disabling network services"
   sudo systemctl stop NetworkManager
   echo ""
-  echo -e "${BBLUE}Reverting mac adress to the permanent one${BWHITE}"
+  echo -e "${BWHITE}Reverting mac adress to the permanent one${WHITE}"
   (sudo macchanger -p $(echo $Interface)
   )> /dev/null 2>&1
   echo ""
   echo "Rebooting network services"
   sudo systemctl start NetworkManager
   echo ""
-  echo -e "Waiting to the network to reboot properly...${WHITE}(can take some time)"
-  sleep 11s
+  wait_internet
 }
 
 
@@ -182,7 +127,7 @@ echo -e       "                  |___|                       "
 echo -e "       ${BBLUE}Made with <3 From France by Timothe P${BWHITE}"
 echo -e "1: Spoof your mac adress"
 echo "2: Reroute all your conexions throug tor"
-echo -e "3: Do both (${BGREEN}Recomanded${BWHITE})"
+echo -e "3: Do both (${BGREEN}Recommended${BWHITE})"
 echo -e "4: Install dependencies (you need to do it once)${BBLUE}"
 
 
@@ -196,8 +141,6 @@ clear
 if [ $C = "1" ]
 then
           spoof_mac
-          internet_test
-          internet_loop
           informations
           STOP
 
@@ -205,8 +148,6 @@ then
 elif [ $C = "2" ]
 then
           tor_iptables2
-          internet_test
-          internet_loop
           informations
           STOP
 
@@ -215,8 +156,6 @@ elif [ $C = "3" ]
 then
           spoof_mac
           tor_iptables2
-          internet_test
-          internet_loop
           informations
           STOP
 
