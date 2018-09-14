@@ -31,7 +31,7 @@ function wait_internet()
 {
   Q="0"
   echo -e "Waiting to the network to reboot properly...${WHITE}(can take some time,"
-  echo -e "In some cases you will need to reconnect wifi manualy)${BWHITE}"
+  echo -e "In some cases you may need to reconnect wifi manualy)${BWHITE}"
 while [ $Q = "0" ] ; do
    Q=$(ping -c1 www.google.com 2> /dev/null | grep -c google);
 done
